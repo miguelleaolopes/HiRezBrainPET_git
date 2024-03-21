@@ -103,6 +103,7 @@ void ShowHelp(int a_returnCode)
   cout << "[Miscellaneous settings]:" << endl;
   cout << "  -h                           : Print out this help page" << endl;
   cout << "  -vb                          : give the verbosity level, from 0 (no verbose) to above 5 (at the event level) (default: 1)." << endl;
+  cout << "  -conf                        : Give the path to the CASToR config directory (default: located through the CASTOR_CONFIG environment variable)." << endl;
   cout << endl;
 #ifdef CASTOR_VERSION
   cout << "  This program is part of the CASToR release version " << CASTOR_VERSION << "." << endl;
@@ -161,6 +162,9 @@ int main(int argc, char **argv)
 
   // Input datafile is histogram
   bool is_histogram_flag = 0;
+
+  // Path to config directory
+  string path_to_config_dir = "";
 
   // ============================================================================================================
   // Read command-line parameters
@@ -349,6 +353,18 @@ int main(int argc, char **argv)
       vb = atoi(argv[i + 1]);
       i++;
     }
+    
+    // Path to config directory
+    else if (option=="-conf")
+    {
+      if (i>=argc-1)
+      {
+        Cerr("***** castor-recon() -> Argument missing for option: " << option << endl);
+        Exit(EXIT_FAILURE);
+      }
+      path_to_config_dir = (string)argv[i+1];
+      i++;
+    }
 
     else
     {
@@ -398,7 +414,7 @@ int main(int argc, char **argv)
   p_outputManager->SetMPIRank(0);
 
   // Set path to the config directory
-  if (p_outputManager->CheckConfigDir(""))
+  if (p_outputManager->CheckConfigDir(path_to_config_dir))
   {
     Cerr("***** castor-datafileConversionEx :: A problem occurred while checking for the config directory path !" << endl);
     Exit(EXIT_FAILURE);

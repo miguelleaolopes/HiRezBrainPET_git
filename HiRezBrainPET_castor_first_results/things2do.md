@@ -27,6 +27,4 @@ Create a ReadMe file with the instructions to compile and run the code, as well 
 - Given the final data, one can start using the main program of reconstruction, castor_recon.exe
   - The parameters are all combine in a batch file to run, run{...}_win{}.bat
 
-## Add the option to add the scanner either in the config/scanner folder or a specific path with the InitScannerWithFile function of sScannerManager.cc
-
 ## Change CmakeLists.txt to include the modified names for the files for the HirRezBrainPET

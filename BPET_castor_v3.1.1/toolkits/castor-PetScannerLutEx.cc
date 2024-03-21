@@ -45,12 +45,24 @@ This is CASToR version 3.1.1.
 void ShowHelp(int a_returnCode)
 {
   cout << endl;
-  cout << "Usage:  castor-PetScannerLutEx  -alias scanner_name  [settings]" << endl;
+  cout << "Usage:  castor-PetScannerLutEx  -alias scanner_name  [options]" << endl;
+
   cout << endl;
   cout << "[Input settings]:" << endl;
   cout << "  -alias scanner_name   : give the alias of the scanner for which the LUT will be generated (suggested template Modality-Constructor-Model (ex: PET_GE_DLS)" << endl;
   cout << "                          the resulting file will be written in the scanner repository (default : /config/scanner directory)" << endl;
   cout << endl;
+  cout << "[Options]:" << endl;
+  cout << "  -radius <value> : Set the radius of scanner in mm (default is 150)" << endl;
+  cout << "  -nbrsectors <value> : Set the number of sectors (default is 942)" << endl;
+  cout << "  -nbcrystals <value1,value2> : Set the number of transaxial and axial crystals in each rsector (default is 1,300)" << endl;
+  cout << "  -sizecrystals <value1,value2,value3> : Set the depth, transaxial and axial size of crystals in mm (default is 10,1,1)" << endl;
+  cout << "  -defaultdim <value1,value2> : Set the default transaxial and axial dimensions (default is 300,3000)" << endl;
+  cout << "  -defaultfov <value1,value2> : Set the default transaxial and axial field of view (default is 300,300)" << endl;
+  cout << "  -minangle <value> : Set the minimum angle difference (default is 22.5)" << endl;
+  cout << "  -startangle <value> : Set the angle of the first rsector (default is 90)" << endl;
+  cout << "  -h,-help,--help : Show this help message" << endl;
+
 #ifdef CASTOR_VERSION
   cout << " This program is part of the CASToR release version " << CASTOR_VERSION << "." << endl;
   cout << endl;
@@ -65,88 +77,28 @@ void ShowHelp(int a_returnCode)
 int main(int argc, char **argv)
 {
 
-// ============================================================================================================
-// MPI stuff (we make all instances but the first one returning 0 directly)
-// ============================================================================================================
-#ifdef CASTOR_MPI
-  int mpi_rank = 0;
-  int mpi_size = 1;
-  MPI_Init(&argc, &argv);
-  MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
-  MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
-  if (mpi_rank != 0)
-    return 0;
-#endif
+  // ============================================================================================================
+  // MPI stuff (we make all instances but the first one returning 0 directly)
+  // ============================================================================================================
+  #ifdef CASTOR_MPI
+    int mpi_rank = 0;
+    int mpi_size = 1;
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
+    if (mpi_rank != 0)
+      return 0;
+  #endif
 
-  // No argument, then show help
-  if (argc == 1)
-    ShowHelp(0);
+  // ============================================================================================================
+  // Input parameter declarations
+  // ============================================================================================================
 
   string scanner_name = "";
   string path_to_LUT = "";
   string path_to_headerLUT = "";
   ofstream LUT_file, header_LUT_file;
 
-  // ============================================================================================================
-  // Read command-line parameters
-  // ============================================================================================================
-  for (int i = 1; i < argc; i++)
-  {
-    string option = (string)argv[i];
-
-    if (option == "-h" || option == "--help" || option == "-help")
-      ShowHelp(0);
-
-    else if (option == "-alias")
-    {
-      if (i >= argc - 1)
-      {
-        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
-        Exit(EXIT_FAILURE);
-      }
-      scanner_name = argv[i + 1];
-      string path_base = sOutputManager::GetInstance()->GetPathToConfigDir();
-
-      path_base.append("scanner");
-      path_to_LUT = path_base + OS_SEP;
-      path_to_headerLUT = path_base + OS_SEP;
-      path_to_LUT.append(scanner_name.c_str()).append(".lut");
-      path_to_headerLUT.append(scanner_name.c_str()).append(".hscan");
-      cerr << endl
-           << "PATH BASE: " << path_base << endl;
-      cerr << ">>> LUT will be written in " << path_to_LUT << endl;
-      cerr << ">>> Header LUT will be written in " << path_to_headerLUT << endl;
-      i++;
-    }
-    else
-    {
-      cerr << "***** castor-PetScannerLutEx :: Unknown option '" << option << "' !" << endl;
-      Exit(EXIT_FAILURE);
-    }
-  }
-
-  // ============================================================================================================
-  // Checks options have been provided
-  // ============================================================================================================
-
-  // Checks
-  // output directory
-  if (scanner_name.empty())
-  {
-    cerr << "***** castor-PetScannerLutEx :: Please provide an alias for this scanner !" << endl;
-    ShowHelp(0);
-    Exit(EXIT_FAILURE);
-  }
-  else
-  {
-    cout << endl
-         << "Generating LUT with the following alias: " << scanner_name << "... " << endl
-         << endl;
-  }
-
-  // ============================================================================================================
-  // Input parameter declarations
-  // ============================================================================================================
   int nb_rings;
   int nb_elts;
   FLTNBLUT min_trs_angle_diff;
@@ -199,27 +151,279 @@ int main(int argc, char **argv)
   crystal_size_axial_lyr = new FLTNBLUT[nbLayers];
   mean_depth_of_interaction_lyr = new FLTNBLUT[nbLayers];
 
+  int default_dim_trans, default_dim_axial;
+  FLTNBLUT default_FOV_trans, default_FOV_axial; // mm
+
+  // Default position for the first rsector in CASToR is directly above isocenter
+  // This variable allows to provides the position of the first rsector in comparison with CASToR convention
+  // This is required to recover angular orientations of the crystals
+  // Default it is set to 90 degree - right side of isocenter
+  FLTNBLUT rsector_first_angle = 90;
+    
+  // Define as 0 the values of optional parameters
+  min_trs_angle_diff = 0;
+  radius_lyr[0] = 0;
+  nb_rsectors_lyr[0] = 0;
+  nb_trans_crystal_lyr[0] = 0;
+  nb_axial_crystal_lyr[0] = 0;
+  crystal_size_depth_lyr[0] = 0;
+  crystal_size_trans_lyr[0] = 0;
+  crystal_size_axial_lyr[0] = 0;
+  default_dim_trans = 0;
+  default_dim_axial = 0;
+  default_FOV_trans = 0;
+  default_FOV_axial = 0;
+
+  // ============================================================================================================
+  // Read command-line parameters
+  // ============================================================================================================
+
+  // No argument, then show help
+  if (argc == 1)
+    ShowHelp(0);
+
+  for (int i = 1; i < argc; i++)
+  {
+    string option = (string)argv[i];
+
+    if (option == "-h" || option == "--help" || option == "-help")
+      ShowHelp(0);
+
+    else if (option == "-alias")
+    {
+      if (i >= argc - 1)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      scanner_name = argv[i + 1];
+      string path_base = sOutputManager::GetInstance()->GetPathToConfigDir();
+
+      path_base.append("scanner");
+      path_to_LUT = path_base + OS_SEP;
+      path_to_headerLUT = path_base + OS_SEP;
+      path_to_LUT.append(scanner_name.c_str()).append(".lut");
+      path_to_headerLUT.append(scanner_name.c_str()).append(".hscan");
+      cerr << endl
+           << "PATH BASE: " << path_base << endl;
+      cerr << ">>> LUT will be written in " << path_to_LUT << endl;
+      cerr << ">>> Header LUT will be written in " << path_to_headerLUT << endl;
+      i++;
+    }
+    else if (option == "-radius")
+    {
+      if (i >= argc - 1)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      radius_lyr[0] = atof(argv[i + 1]);
+      i++;
+    }
+    else if (option == "-nbrsectors")
+    {
+      if (i >= argc - 1)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      nb_rsectors_lyr[0] = atoi(argv[i + 1]);
+      i++;
+    }
+    else if (option == "-nbcrystals")
+    {
+      if (i >= argc - 1)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      string input = argv[i + 1];
+      size_t commaPos = input.find(",");
+      if (commaPos == string::npos)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Invalid input format for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      string nbTransStr = input.substr(0, commaPos);
+      string nbAxialStr = input.substr(commaPos + 1);
+      nb_trans_crystal_lyr[0] = atoi(nbTransStr.c_str());
+      nb_axial_crystal_lyr[0] = atoi(nbAxialStr.c_str());
+      i++;
+    }
+    else if (option == "-sizecrystals")
+    {
+      if (i >= argc - 1)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      string input = argv[i + 1];
+      size_t commaPos1 = input.find(",");
+      size_t commaPos2 = input.find(",", commaPos1 + 1);
+      if (commaPos1 == string::npos || commaPos2 == string::npos)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Invalid input format for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      string depthStr = input.substr(0, commaPos1);
+      string transStr = input.substr(commaPos1 + 1, commaPos2 - commaPos1 - 1);
+      string axialStr = input.substr(commaPos2 + 1);
+      crystal_size_depth_lyr[0] = atof(depthStr.c_str());
+      crystal_size_trans_lyr[0] = atof(transStr.c_str());
+      crystal_size_axial_lyr[0] = atof(axialStr.c_str());
+      i++;
+    }
+    else if (option == "-defaultdim")
+    {
+      if (i >= argc - 1)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      string input = argv[i + 1];
+      size_t commaPos = input.find(",");
+      if (commaPos == string::npos)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Invalid input format for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      string dimTransStr = input.substr(0, commaPos);
+      string dimAxialStr = input.substr(commaPos + 1);
+      default_dim_trans = atoi(dimTransStr.c_str());
+      default_dim_axial = atoi(dimAxialStr.c_str());
+      i++;
+    }
+    else if (option == "-defaultfov")
+    {
+      if (i >= argc - 1)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      string input = argv[i + 1];
+      size_t commaPos = input.find(",");
+      if (commaPos == string::npos)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Invalid input format for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      string defaultFOVTransStr = input.substr(0, commaPos);
+      string defaultFOVAxialStr = input.substr(commaPos + 1);
+      default_FOV_trans = atof(defaultFOVTransStr.c_str());
+      default_FOV_axial = atof(defaultFOVAxialStr.c_str());
+      i++;
+    }
+    else if (option == "-minangle")
+    {
+      if (i >= argc - 1)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      min_trs_angle_diff = atof(argv[i + 1]);
+      i++;
+    }
+    else if (option == "-startangle")
+    {
+      if (i >= argc - 1)
+      {
+        cerr << "***** castor-PetScannerLutEx :: Argument missing for option: " << option << endl;
+        Exit(EXIT_FAILURE);
+      }
+      rsector_first_angle = atof(argv[i + 1]);
+      i++;
+    }
+    else if (option == "-help" || option == "-h" || option == "--help")
+      ShowHelp(0);
+    else
+    {
+      cerr << "***** castor-PetScannerLutEx :: Unknown option '" << option << "' !" << endl;
+      Exit(EXIT_FAILURE);
+    }
+  }
+
+  // ============================================================================================================
+  // Checks options have been provided
+  // ============================================================================================================
+
+  // Checks
+  // output directory
+  if (scanner_name.empty())
+  {
+    cerr << "***** castor-PetScannerLutEx :: Please provide an alias for this scanner !" << endl;
+    ShowHelp(0);
+    Exit(EXIT_FAILURE);
+  }
+  else
+  {
+    cout << endl
+         << "Generating LUT with the following alias: " << scanner_name << "... " << endl
+         << endl;
+  }
+
+  // ============================================================================================================
+  // Input parameter declarations
+  // ============================================================================================================
+
   // Initialize value of each scanner element according to the scanner system
 
   description = "User-made LUT of a RPC PET scanner system, that has a square shape and is being approximated to a cylinder; generated by the castor-RPC_PetScannerLutEx script";
   scanner_modality = "PET";
 
+  
+  // Define values not provided by the user with the options
+  // Other values comment in front
+  if(min_trs_angle_diff == 0)
+      min_trs_angle_diff = 22.5;
+
+  if(radius_lyr[0] == 0)
+    radius_lyr[0] = 150;
+
+  if (nb_rsectors_lyr[0] == 0)
+    nb_rsectors_lyr[0] = 942; // 1884
+
+  if(nb_trans_crystal_lyr[0] == 0)
+    nb_trans_crystal_lyr[0] = 1;
+
+  if(nb_axial_crystal_lyr[0] == 0)
+    nb_axial_crystal_lyr[0] = 300; // 150
+
+  if(crystal_size_depth_lyr[0] == 0)
+    crystal_size_depth_lyr[0] = 10;
+
+  if(crystal_size_trans_lyr[0] == 0)
+    crystal_size_trans_lyr[0] = 1; // 0.5
+
+  if(crystal_size_axial_lyr[0] == 0)
+    crystal_size_axial_lyr[0] = 1; // 2
+
+  if(default_dim_trans == 0)
+    default_dim_trans = 300; // 600
+
+  if(default_dim_axial == 0)
+    default_dim_axial = 300; // 150
+
+  if(default_FOV_trans == 0)
+    default_FOV_trans = 300;
+
+  if(default_FOV_axial == 0)
+    default_FOV_axial = 300;
+
+  // Values already define commented
   // System minimal transaxial angle difference between two scanner elements to get a LOR
-  // more??
-  min_trs_angle_diff = 22.5;
+  // min_trs_angle_diff = 22.5;
 
   // radius in mm (from isocenter to crystal surface)
-  radius_lyr[0] = 150;
+  // radius_lyr[0] = 150;
 
   // nb scanner elements
-  // Other values comment next
-  nb_rsectors_lyr[0] = 1884; // 942
+  // nb_rsectors_lyr[0] = 942;
   nb_trans_mod_lyr[0] = 1;
   nb_axial_mod_lyr[0] = 1;
   nb_trans_submod_lyr[0] = 1;
   nb_axial_submod_lyr[0] = 1;
-  nb_trans_crystal_lyr[0] = 1;
-  nb_axial_crystal_lyr[0] = 150; // 300
+  // nb_trans_crystal_lyr[0] = 1;
+  // nb_axial_crystal_lyr[0] = 300;
 
   // Gaps between scanner elements
   gap_trans_mod_lyr[0] = 0;
@@ -230,9 +434,9 @@ int main(int argc, char **argv)
   gap_axial_crystal_lyr[0] = 0;
 
   // crystal dimensions (mm)
-  crystal_size_depth_lyr[0] = 10;  // indiferent
-  crystal_size_trans_lyr[0] = 0.5; // 1
-  crystal_size_axial_lyr[0] = 2; // 1
+  // crystal_size_depth_lyr[0] = 10;  // indiferent
+  // crystal_size_trans_lyr[0] = 1; 
+  // crystal_size_axial_lyr[0] = 1;
 
   // mean depth of interaction in the crystal (mm)
   // negative value means no depth of interaction
@@ -243,14 +447,12 @@ int main(int argc, char **argv)
   angular_span = 360.;
 
   // Default reconstruction parameters for the scanner
-  int default_dim_trans, default_dim_axial;
-  default_dim_trans = 600; // 300
-  default_dim_axial = 150; // 300
+  // default_dim_trans = 300;
+  // default_dim_axial = 300;
 
   // default field of view
-  FLTNBLUT default_FOV_trans, default_FOV_axial; // mm
-  default_FOV_trans = 300;
-  default_FOV_axial = 300;
+  // default_FOV_trans = 300;
+  // default_FOV_axial = 300;
 
   // Z-shifts (rsector axial shift for each module)
 
@@ -284,12 +486,6 @@ int main(int argc, char **argv)
   // Write the crytal LUT elements successively for each layer
   for (int lyr = 0; lyr < nbLayers; lyr++)
   {
-    // Default position for the first rsector in CASToR is directly above isocenter
-    // This variable allows to provides the position of the first rsector in comparison with CASToR convention
-    // This is required to recover angular orientations of the crystals
-    // It is set to 90 degree - right side of isocenter
-    FLTNBLUT rsector_first_angle = 90;
-
     // Redifine variables for the current layer
     int nb_rsectors = nb_rsectors_lyr[lyr],
         nb_trans_mod = nb_trans_mod_lyr[lyr],
@@ -396,12 +592,12 @@ int main(int argc, char **argv)
     for (int i = 0; i < nb_mod; i++)
     {
       // Define the transaxial and axial edge start positions for the rsector
-      FLTNBLUT y_start_m = (nb_trans_mod * size_trans_mod + (nb_trans_mod - 1) * gap_trans_mod) / 2;
+      FLTNBLUT y_start_m = -(nb_trans_mod * size_trans_mod + (nb_trans_mod - 1) * gap_trans_mod) / 2;
       FLTNBLUT z_start_m = -(nb_axial_mod * size_axial_mod + (nb_axial_mod - 1) * gap_axial_mod) / 2;
 
       // Define the transaxial and axial edge start positions for the i-Module in the rsector.
       // Enumeration starting with the transaxial modules.
-      y_start_m -= (i % nb_trans_mod) * (size_trans_mod + gap_trans_mod);
+      y_start_m += (i % nb_trans_mod) * (size_trans_mod + gap_trans_mod);
       z_start_m += int(i / nb_trans_mod) * (size_axial_mod + gap_axial_mod);
 
       for (int j = 0; j < nb_submod; j++)
@@ -409,19 +605,23 @@ int main(int argc, char **argv)
         FLTNBLUT y_start_sm = y_start_m;
         FLTNBLUT z_start_sm = z_start_m;
 
-        y_start_sm -= (j % nb_trans_submod) * (size_trans_submod + gap_trans_submod);
+        y_start_sm += (j % nb_trans_submod) * (size_trans_submod + gap_trans_submod);
         z_start_sm += int(j / nb_trans_submod) * (size_axial_submod + gap_axial_submod);
 
         for (int k = 0; k < nb_crystal; k++)
         {
           // Define the transaxial and axial center positions for the j-SubModule (crystal) i-Module of the rsector.
           // Enumeration starting with the transaxial submodules.
-          FLTNBLUT Xcrist = radius + crystal_size_depth / 2;
-          FLTNBLUT Ycrist = y_start_sm - (k % nb_trans_crystal) * (crystal_size_trans + gap_trans_crystal) - crystal_size_trans / 2;
+          FLTNBLUT Ycrist = radius + crystal_size_depth / 2;
+          FLTNBLUT Xcrist = y_start_sm + (k % nb_trans_crystal) * (crystal_size_trans + gap_trans_crystal) + crystal_size_trans / 2;
           FLTNBLUT Zcrist = z_start_sm + int(k / nb_trans_crystal) * (crystal_size_axial + gap_axial_crystal) + crystal_size_axial / 2;
 
-          crystal_center[0][i][j][k]->SetMatriceElt(0, 0, Xcrist);
-          crystal_center[0][i][j][k]->SetMatriceElt(1, 0, Ycrist);
+          // Apply rotation to the crystal center position based on rsector_first_angle
+          FLTNBLUT rotated_Xcrist = Xcrist * cos(-rsector_first_angle_rad) - Ycrist * sin(-rsector_first_angle_rad);
+          FLTNBLUT rotated_Ycrist = Xcrist * sin(-rsector_first_angle_rad) + Ycrist * cos(-rsector_first_angle_rad);
+
+          crystal_center[0][i][j][k]->SetMatriceElt(0, 0, rotated_Xcrist);
+          crystal_center[0][i][j][k]->SetMatriceElt(1, 0, rotated_Ycrist);
           crystal_center[0][i][j][k]->SetMatriceElt(2, 0, Zcrist);
         }
       }
@@ -463,8 +663,9 @@ int main(int argc, char **argv)
             crystal_positionZ[cryID] = crystal_center[rs + 1][j][k][l]->GetMatriceElt(2, 0);
             crystal_positionZ[cryID] += rsctr_zshift[rs % nb_rsctr_axial_shift];
 
-            crystal_orientationX[cryID] = sin(orientation_angle);
-            crystal_orientationY[cryID] = cos(orientation_angle);
+            // Normalized orientation vector
+            crystal_orientationX[cryID] = crystal_positionX[cryID]/sqrt(crystal_positionX[cryID]*crystal_positionX[cryID]+crystal_positionY[cryID]*crystal_positionY[cryID]);
+            crystal_orientationY[cryID] = crystal_positionY[cryID]/sqrt(crystal_positionX[cryID]*crystal_positionX[cryID]+crystal_positionY[cryID]*crystal_positionY[cryID]);
             crystal_orientationZ[cryID] = 0;
           }
       // int test_i = 2;

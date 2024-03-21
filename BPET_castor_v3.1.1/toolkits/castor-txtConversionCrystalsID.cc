@@ -51,7 +51,8 @@ void ShowHelp()
   cout << endl;
   cout << "[Main Settings]:" << endl;
   cout << "  -txt <filename>      : datafile txt with the positions of crystal" << endl;
-  cout << "  -sf <filename>       : give the path to the header of lut scanfile" << endl;
+  cout << "  -sf scanner_alias    : provide the name of the scanner used for to acquire the original data" << endl;
+  cout << "                       : must correspond to a .geom or .hscan file in the config/scanner repository." << endl;
   cout << "  -o <filename>        : give the path to the output datafile txt with the IDs of crystals" << endl;
   cout << "                         (in relation to the txt location, if just name, saves in same as txt path)" << endl;
   cout << endl;

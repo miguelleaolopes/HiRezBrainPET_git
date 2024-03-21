@@ -9,23 +9,101 @@ set isotope=-ist F-18
 set verbose=-vb 2
 @REM set calibration_fac = -cf 1.0
 
-set scanner=-s ..\..\config\scanner\HiRezBrainPET_rsmall_Geom 
+set scanner=-s ..\..\config\scanner\HiRezBrainPET_rsmall_Geom_orig
 set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rsmall_orig
 set datafile=-il ..\Files\LOR_all_time_ID_Geom_rsmall_orig.txt
 
-@REM set datafile=-il ..\Files\LOR_all_time_ID_z2s.txt
-@REM set output=-o ..\Files\CASToR_data\RPC_all_data_z2s
-@REM set scanner=-s ..\..\config\scanner\RPC_HiRezBrainPET_Geom_z2s
-
-@REM set datafile=-il ..\Files\LOR_all_time_ID_small.txt
-@REM set output=-o ..\Files\CASToR_data\RPC_all_data_small
-@REM set scanner=-s ..\..\config\scanner\RPC_HiRezBrainPET_Geom_small
-
-@REM set datafile=-il ..\Files\LOR_all_time_ID_big.txt
-@REM set output=-o ..\Files\CASToR_data\RPC_all_data_big
-@REM set scanner=-s ..\..\config\scanner\RPC_HiRezBrainPET_Geom_big
-
 echo ==================================================================================
-echo Conversion of RPC_HIREZBRAINPET data.
+echo Conversion of HIREZBRAINPET data to CASToR. Scanner: HiRezBrainPET_rsmall_Geom_orig
 echo ==================================================================================
 %command% %datafile% %output% %scanner% %verbose% %isotope% 
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_rsmall_Geom_z2s
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rsmall_z2s
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_rsmall_z2s.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_rsmall_Geom_z2s
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_rsmall_Geom_big
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rsmall_big
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_rsmall_big.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_rsmall_Geom_big
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_rmid_Geom_orig
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rmid_orig
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_rmid_orig.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_rmid_Geom_orig
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_rmid_Geom_z2s
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rmid_z2s
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_rmid_z2s.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_rmid_Geom_z2s
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_rmid_Geom_big_z4s
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rmid_big_z4s
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_rmid_big_z4s.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_rmid_Geom_big_z4s
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_rmid_Geom_big
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rmid_big
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_rmid_big.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_rmid_Geom_big
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_rbig_Geom_orig
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rbig_orig
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_rbig_orig.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_rbig_Geom_orig
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_rbig_Geom_z2s
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rbig_z2s
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_rbig_z2s.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_rbig_Geom_z2s
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_square_Geom
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_square
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_square.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_square_Geom
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
+
+@REM set scanner=-s ..\config\scanner\HiRezBrainPET_square_Geom_z2s
+@REM set output=-o ..\Files\CASToR_data\CASToR_Derenzo_all_Geom_square_z2s
+@REM set datafile=-il ..\Files\LOR_all_time_ID_Geom_square_z2s.txt
+
+@REM echo ==================================================================================
+@REM echo Conversion of TXT file with crystal ID. Scanner: HiRezBrainPET_square_Geom_z2s
+@REM echo ==================================================================================
+@REM %command% %datafile% %output% %scanner% %verbose% %isotope%
