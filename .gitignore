@@ -1,7 +1,8 @@
 /.vscode
-/HiRezBrainPET_castor_first_results/Files/*
-!/HiRezBrainPET_castor_first_results/Files/CASToR_data
-/HiRezBrainPET_castor_first_results/Files/CASToR_data/*
-/HiRezBrainPET_castor_first_results/Results/2024_Derenzo/*
+/BPET_castor_results/Files/*
+!/BPET_castor_results/Files/CASToR_data
+/BPET_castor_results/Files/CASToR_data/*
+/BPET_castor_results/Results/2024_Derenzo/*
+/BPET_castor_results/Results/r*
 /BPET_castor_v3.1.1/build/*
 /BPET_castor_v3.1.1/build_git_oldpc/*
