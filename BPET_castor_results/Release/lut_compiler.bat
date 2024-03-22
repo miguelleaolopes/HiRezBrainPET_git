@@ -1,7 +1,7 @@
 @echo off
 
 @REM set command= .\castor-PetScannerLutEx.exe	
-set command= .\..\..\BPET_castor_v3.1.1\build\Release\castor-PetScannerLutEx.exe	
+set command= .\..\..\BPET_castor_v3.1.1\build\Release\castor-PetScannerLutEx_BPET.exe	
 
 :: Constant parameters
 set defaultfov= -defaultfov 300,300
@@ -81,7 +81,7 @@ set defaultdim= -defaultdim 300,300
 @REM set defaultdim= -defaultdim 600,150
 
 
-@REM :: HiRezBrainPET_sqaure_Geom
+@REM :: HiRezBrainPET_square_Geom
 @REM set alias= -alias HiRezBrainPET_square_Geom
 @REM set radius= -radius 145
 @REM set nbrsectors= -nbrsectors 4
@@ -90,9 +90,9 @@ set defaultdim= -defaultdim 300,300
 @REM set defaultdim= -defaultdim 300,300
 @REM set startangle= -startangle 45
 
-:: HiRezBrainPET_sqaure_Geom_z2s
+:: HiRezBrainPET_square_Geom_z2s
 @REM set alias= -alias HiRezBrainPET_square_Geom_z2s
-@REM set radius= -radius 150
+@REM set radius= -radius 145
 @REM set nbrsectors= -nbrsectors 4
 @REM set nbcrystals= -nbcrystals 600,150
 @REM set sizecrystals= -sizecrystals 10,0.5,2

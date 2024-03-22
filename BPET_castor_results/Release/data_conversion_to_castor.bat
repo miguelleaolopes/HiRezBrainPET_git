@@ -4,7 +4,7 @@
 @REM The data is stored in the file intersect_points_with_time.txt
 
 @REM Define variables for the command line
-set command=.\castor-datafileConversionEx.exe
+set command=.\castor-datafileConversionEx_BPET.exe
 set isotope=-ist F-18
 set verbose=-vb 2
 @REM set calibration_fac = -cf 1.0

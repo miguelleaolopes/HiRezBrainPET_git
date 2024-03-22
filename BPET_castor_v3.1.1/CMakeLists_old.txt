@@ -416,12 +416,12 @@ endif()
 # Build GATE tools for CASToR
 if(CASToR_BUILD_SAMPLE_UTILITIES)
   add_executable(castor-datafileExplorer ${TOOLKITS_SOURCE_DIR}/castor-datafileExplorer.cc ${sources} ${headers})
-  add_executable(castor-txtConversionCrystalsID_BPET ${TOOLKITS_SOURCE_DIR}/castor-txtConversionCrystalsID_BPET.cc ${sources} ${headers})
+  add_executable(castor-txtConversionCrystalsID ${TOOLKITS_SOURCE_DIR}/castor-txtConversionCrystalsID.cc ${sources} ${headers})
   add_executable(castor-scannerLUTExplorer ${TOOLKITS_SOURCE_DIR}/castor-scannerLUTExplorer.cc ${sources} ${headers})
   add_executable(castor-imageDynamicTools ${TOOLKITS_SOURCE_DIR}/castor-imageDynamicTools.cc ${sources} ${headers})
   add_executable(castor-datafileShuffler ${TOOLKITS_SOURCE_DIR}/castor-datafileShuffler.cc ${sources} ${headers})
-  add_executable(castor-PetScannerLutEx_BPET ${TOOLKITS_SOURCE_DIR}/castor-PetScannerLutEx_BPET.cc ${sources} ${headers})
-  add_executable(castor-datafileConversionEx_BPET ${TOOLKITS_SOURCE_DIR}/castor-datafileConversionEx_BPET.cc ${sources}
+  add_executable(castor-PetScannerLutEx ${TOOLKITS_SOURCE_DIR}/castor-PetScannerLutEx.cc ${sources} ${headers})
+  add_executable(castor-datafileConversionEx ${TOOLKITS_SOURCE_DIR}/castor-datafileConversionEx.cc ${sources}
     ${headers})
 endif()
 
@@ -453,7 +453,7 @@ if(WIN32)
     target_link_libraries(castor-datafileExplorer ${ROOT_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES} ${MPI_CXX_LIBRARIES}
     )
-    target_link_libraries(castor-txtConversionCrystalsID_BPET ${ROOT_LIBRARIES}
+    target_link_libraries(castor-txtConversionCrystalsID ${ROOT_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES} ${MPI_CXX_LIBRARIES}
     )
     target_link_libraries(castor-scannerLUTExplorer ${ROOT_LIBRARIES}
@@ -465,10 +465,10 @@ if(WIN32)
     target_link_libraries(castor-datafileShuffler ${ROOT_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES} ${MPI_CXX_LIBRARIES}
     )
-    target_link_libraries(castor-PetScannerLutEx_BPET ${ROOT_LIBRARIES}
+    target_link_libraries(castor-PetScannerLutEx ${ROOT_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES} ${MPI_CXX_LIBRARIES}
     )
-    target_link_libraries(castor-datafileConversionEx_BPET ${ROOT_LIBRARIES}
+    target_link_libraries(castor-datafileConversionEx ${ROOT_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES} ${MPI_CXX_LIBRARIES}
     )
   endif()
@@ -499,7 +499,7 @@ else()
   if(CASToR_BUILD_SAMPLE_UTILITIES)
     target_link_libraries(castor-datafileExplorer ${ROOT_LIBRARIES} ${OpenMP_CXX_FLAGS} ${MPI_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES})
-    target_link_libraries(castor-txtConversionCrystalsID_BPET ${ROOT_LIBRARIES} ${OpenMP_CXX_FLAGS} ${MPI_LIBRARIES}
+    target_link_libraries(castor-txtConversionCrystalsID ${ROOT_LIBRARIES} ${OpenMP_CXX_FLAGS} ${MPI_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES})
     target_link_libraries(castor-scannerLUTExplorer ${ROOT_LIBRARIES} ${OpenMP_CXX_FLAGS} ${MPI_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES})
@@ -507,9 +507,9 @@ else()
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES})
     target_link_libraries(castor-datafileShuffler ${ROOT_LIBRARIES} ${OpenMP_CXX_FLAGS} ${MPI_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES})
-    target_link_libraries(castor-PetScannerLutEx_BPET ${ROOT_LIBRARIES} ${MPI_LIBRARIES}
+    target_link_libraries(castor-PetScannerLutEx ${ROOT_LIBRARIES} ${MPI_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES} ${OpenMP_CXX_FLAGS})
-    target_link_libraries(castor-datafileConversionEx_BPET ${ROOT_LIBRARIES} ${MPI_LIBRARIES}
+    target_link_libraries(castor-datafileConversionEx ${ROOT_LIBRARIES} ${MPI_LIBRARIES}
       ${DEFORMATION_LEDESMA_LIBRARIES} ${ITK_LIBRARIES} ${OpenMP_CXX_FLAGS})
   endif()
 endif()
@@ -540,7 +540,7 @@ endif()
 
 if(CASToR_BUILD_SAMPLE_UTILITIES)
   install(TARGETS
-    castor-datafileExplorer castor-txtConversionCrystalsID_BPET castor-scannerLUTExplorer castor-imageDynamicTools castor-datafileShuffler castor-PetScannerLutEx_BPET castor-datafileConversionEx_BPET
+    castor-datafileExplorer castor-txtConversionCrystalsID castor-scannerLUTExplorer castor-imageDynamicTools castor-datafileShuffler castor-PetScannerLutEx castor-datafileConversionEx
     DESTINATION
     bin
   )

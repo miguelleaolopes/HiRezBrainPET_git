@@ -25,6 +25,8 @@ foobar.pluralize('goose')
 foobar.singularize('phenomena')
 ```
 
+config folder of the results should be the same as the one in the build folder.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)

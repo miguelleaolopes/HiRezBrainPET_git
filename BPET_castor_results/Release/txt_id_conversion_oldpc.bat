@@ -6,7 +6,7 @@
 
 
 @REM Define variables for the command line
-set command=.\..\..\BPET_castor_v3.1.1\build_git_oldpc\Release\castor-txtConversionCrystalsID.exe
+set command=.\..\..\BPET_castor_v3.1.1\build_git_oldpc\Release\castor-txtConversionCrystalsID_BPET.exe
 set verbose=-vb 3
 set txtfile=-txt ..\Files\LOR_all_points_time.txt
 
