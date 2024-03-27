@@ -30,15 +30,15 @@ set datafile7=-df .\..\..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rmid_big_df.
 set datafile8=-df .\..\..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rbig_orig_df.Cdh
 set datafile9=-df .\..\..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rbig_z2s_df.Cdh
 
-set output=-dout .\..\..\Results\rsmall_orig\voxsize02_MLEM_jos_gauss05_3sig\1test
-set output2=-dout .\..\..\Results\rsmall_z2s\voxsize02_MLEM_jos_gauss05_3sig\1test
-set output3=-dout .\..\..\Results\rsmall_big\voxsize02_MLEM_jos_gauss05_3sig\1test
-set output4=-dout .\..\..\Results\rmid_orig\voxsize02_MLEM_jos_gauss05_3sig\1test
-set output5=-dout .\..\..\Results\rmid_z2s\voxsize02_MLEM_jos_gauss05_3sig\1test
-set output6=-dout .\..\..\Results\rmid_z4s\voxsize02_MLEM_jos_gauss05_3sig\1test
-set output7=-dout .\..\..\Results\rmid_big\voxsize02_MLEM_jos_gauss05_3sig\1test
-set output8=-dout .\..\..\Results\rbig_orig\voxsize02_MLEM_jos_gauss05_3sig\1test
-set output9=-dout .\..\..\Results\rbig_z2s\voxsize02_MLEM_jos_gauss05_3sig\1test
+set output=-dout .\..\..\Results\rsmall_orig\vs02_MLEM_jos_gauss05_3sig\1test
+set output2=-dout .\..\..\Results\rsmall_z2s\vs02_MLEM_jos_gauss05_3sig\1test
+set output3=-dout .\..\..\Results\rsmall_big\vs02_MLEM_jos_gauss05_3sig\1test
+set output4=-dout .\..\..\Results\rmid_orig\vs02_MLEM_jos_gauss05_3sig\1test
+set output5=-dout .\..\..\Results\rmid_z2s\vs02_MLEM_jos_gauss05_3sig\1test
+set output6=-dout .\..\..\Results\rmid_z4s\vs02_MLEM_jos_gauss05_3sig\1test
+set output7=-dout .\..\..\Results\rmid_big\vs02_MLEM_jos_gauss05_3sig\1test
+set output8=-dout .\..\..\Results\rbig_orig\vs02_MLEM_jos_gauss05_3sig\1test
+set output9=-dout .\..\..\Results\rbig_z2s\vs02_MLEM_jos_gauss05_3sig\1test
 
 @REM set output_2=-dout .\..\..\Results\1test\all_z2s_fov02_OSL_1t
 @REM set output_3=-dout .\..\..\Results\1test\all_z2s_fov02_DEPIERRO95_1t
@@ -58,6 +58,8 @@ set voxels_number=-dim 200,200,50
 set voxels_size=-vox 0.2,0.2,0.4
 
 set offset=-off 0.,-45.,-8.
+set offset_mid=-off 0.,-55.,-8.
+set offset_big=-off 0.,-65.,-8.`
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -93,53 +95,50 @@ echo Reconstruction is going on. Should take several minutes depending on the ha
 echo ==================================================================================
 
 @REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_orig_df in output rsmall_orig\voxsize02_MLEM_jos_gauss05_3sig\1test
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_orig_df in output rsmall_orig\vs02_MLEM_jos_gauss05_3sig\1test
 @REM echo ==================================================================================
 @REM %mpi_stuff% %recon% %verbose% %datafile% %output% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
 @REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\voxsize02_MLEM_jos_gauss05_3sig\1test
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs02_MLEM_jos_gauss05_3sig\1test
 @REM echo ==================================================================================
 @REM %mpi_stuff% %recon% %verbose% %datafile2% %output2% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
-echo ==================================================================================
-echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_big_df in output rsmall_big\voxsize02_MLEM_jos_gauss05_3sig\1test
-echo ==================================================================================
-%mpi_stuff% %recon% %verbose% %datafile3% %output3% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
+@REM echo ==================================================================================
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_big_df in output rsmall_big\vs02_MLEM_jos_gauss05_3sig\1test
+@REM echo ==================================================================================
+@REM %mpi_stuff% %recon% %verbose% %datafile3% %output3% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
 @REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rmid_orig_df in output rmid_orig\voxsize02_MLEM_jos_gauss05_3sig\1test
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rmid_orig_df in output rmid_orig\vs02_MLEM_jos_gauss05_3sig\1test
 @REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile4% %output4% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
+@REM %mpi_stuff% %recon% %verbose% %datafile4% %output4% %sens% %iteration% %voxels_number% %voxels_size% %offset_mid% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
 @REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rmid_z2s_df in output rmid_z2s\voxsize02_MLEM_jos_gauss05_3sig\1test
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rmid_z2s_df in output rmid_z2s\vs02_MLEM_jos_gauss05_3sig\1test
 @REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile5% %output5% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
-
-@REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rmid_big_z4s_df in output rmid_z4s\voxsize02_MLEM_jos_gauss05_3sig\1test
-@REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile6% %output6% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
+@REM %mpi_stuff% %recon% %verbose% %datafile5% %output5% %sens% %iteration% %voxels_number% %voxels_size% %offset_mid% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
 @REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rmid_big_df in output rmid_big\voxsize02_MLEM_jos_gauss05_3sig\1test
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rmid_big_z4s_df in output rmid_z4s\vs02_MLEM_jos_gauss05_3sig\1test
 @REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile7% %output7% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
+@REM %mpi_stuff% %recon% %verbose% %datafile6% %output6% %sens% %iteration% %voxels_number% %voxels_size% %offset_mid% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
-echo ==================================================================================
-echo Reconstruction with CASToR_Derenzo_all_Geom_rbig_orig_df in output rbig_orig\voxsize02_MLEM_jos_gauss05_3sig\1test
-echo ==================================================================================
-%mpi_stuff% %recon% %verbose% %datafile8% %output8% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
+@REM echo ==================================================================================
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rmid_big_df in output rmid_big\vs02_MLEM_jos_gauss05_3sig\1test
+@REM echo ==================================================================================
+@REM %mpi_stuff% %recon% %verbose% %datafile7% %output7% %sens% %iteration% %voxels_number% %voxels_size% %offset_mid% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
-echo ==================================================================================
-echo Reconstruction with CASToR_Derenzo_all_Geom_rbig_z2s_df in output rbig_z2s\voxsize02_MLEM_jos_gauss05_3sig\1test
-echo ==================================================================================
-%mpi_stuff% %recon% %verbose% %datafile9% %output9% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
+@REM echo ==================================================================================
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rbig_orig_df in output rbig_orig\vs02_MLEM_jos_gauss05_3sig\1test
+@REM echo ==================================================================================
+@REM %mpi_stuff% %recon% %verbose% %datafile8% %output8% %sens% %iteration% %voxels_number% %voxels_size% %offset_big% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
-@REM %mpi_stuff% %recon% %verbose% %datafile% %output_2% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer_2% %projector% %psf% %thread% %post% %last_it% %out_flip%
+@REM echo ==================================================================================
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rbig_z2s_df in output rbig_z2s\vs02_MLEM_jos_gauss05_3sig\1test
+@REM echo ==================================================================================
+@REM %mpi_stuff% %recon% %verbose% %datafile9% %output9% %sens% %iteration% %voxels_number% %voxels_size% %offset_big% %optimizer% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
-@REM %mpi_stuff% %recon% %verbose% %datafile% %output_3% %sens% %iteration% %voxels_number% %voxels_size% %offset% %optimizer_3% %projector% %psf% %thread% %post% %last_it% %out_flip%
 
 @echo on
 echo ==================================================================================

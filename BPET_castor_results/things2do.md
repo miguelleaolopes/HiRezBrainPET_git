@@ -5,10 +5,6 @@
 Have a system, with crystal with a size of 1mm transaxial and axial.
 After done, redo for 1/4 of size?? But this will make x4x4 more elements, and its already pretty big (286k elets).
 
-## New bat file with only the sets
-
-Create a new bat file with the set commands for the new pc, test if the exe already works in the new pc without compiling again.
-
 ## Create a python script for the compiling
 
 Create a python script that makes a gui to chose the parameters of the compiling, and then compile the code by creating a batch script (system versions?).
@@ -27,4 +23,12 @@ Create a ReadMe file with the instructions to compile and run the code, as well 
 - Given the final data, one can start using the main program of reconstruction, castor_recon.exe
   - The parameters are all combine in a batch file to run, run{...}_win{}.bat
 
-## Change CmakeLists.txt to include the modified names for the files for the HirRezBrainPET
+## Python requirements
+
+ttkbootstrap
+tkinter
+exponential stuff check jupyter notebook
+ipython
+ipykernel
+scikit-learn
+scipy
