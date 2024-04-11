@@ -5,9 +5,9 @@
 Have a system, with crystal with a size of 1mm transaxial and axial.
 After done, redo for 1/4 of size?? But this will make x4x4 more elements, and its already pretty big (286k elets).
 
-## Create a python script for the compiling
+## Modify python script for the compiling
 
-Create a python script that makes a gui to chose the parameters of the compiling, and then compile the code by creating a batch script (system versions?).
+create a batch script dependent on the system?
 
 ## Do a ReadMe Documentation
 
@@ -23,12 +23,13 @@ Create a ReadMe file with the instructions to compile and run the code, as well 
 - Given the final data, one can start using the main program of reconstruction, castor_recon.exe
   - The parameters are all combine in a batch file to run, run{...}_win{}.bat
 
-## Python requirements
+Prerequisites - of the list that i have, e.g. python, cmake, mpi, etc
 
-ttkbootstrap
-tkinter
-exponential stuff check jupyter notebook
-ipython
-ipykernel
-scikit-learn
-scipy
+Instalation - of the requirements.txt
+
+Usage - of the scripts, with the parameters and options. And of the python file. 2 different sections.
+
+## Other stuff
+
+python computeDerenzoValleyToPeak.py -f example/1test_it6.hdr -c example/config.json -m mean --showTriangPos --showSpotsPos --showLinesProfile --imageShown 2 --showVprHistos --saveResults
+
