@@ -101,7 +101,7 @@ void ShowHelp(int a_returnCode)
   cout << "                                 Other isotopes can be added in the same file" << endl;
   cout << endl;
   cout << "[Miscellaneous settings]:" << endl;
-  cout << "  -h                           : Print out this help page" << endl;
+  cout << "  -h,-help,--help              : Print out this help page" << endl;
   cout << "  -vb                          : give the verbosity level, from 0 (no verbose) to above 5 (at the event level) (default: 1)." << endl;
   cout << "  -conf                        : Give the path to the CASToR config directory (default: located through the CASTOR_CONFIG environment variable)." << endl;
   cout << endl;
@@ -175,7 +175,7 @@ int main(int argc, char **argv)
     string option = (string)argv[i];
 
     // Show help
-    if (option == "-h")
+    if (option == "-h" || option == "--help" || option == "-help")
       ShowHelp(EXIT_SUCCESS);
     
     // Provide an histogram datafile to convert

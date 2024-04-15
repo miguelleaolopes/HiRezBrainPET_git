@@ -12,8 +12,17 @@
     - [Installation](#installation)
   - [How to use](#how-to-use)
     - [CASToR Source code](#castor-source-code)
-    - [Results - Python scripts](#results---python-scripts)
-  - [Roadmap](#roadmap)
+    - [Results - Python scripts - Data Conversion/Processing](#results---python-scripts---data-conversionprocessing)
+    - [Results - Exectuables - Data Conversion/Processing](#results---exectuables---data-conversionprocessing)
+      - [castor-PETScannerLutEx\_BPET.exe](#castor-petscannerlutex_bpetexe)
+      - [castor-scannerLUTExplorer.exe](#castor-scannerlutexplorerexe)
+      - [castor-txtConversionCrystalsID\_BPET.exe](#castor-txtconversioncrystalsid_bpetexe)
+      - [castor-datafileConversionEx\_BPET.exe](#castor-datafileconversionex_bpetexe)
+      - [Batch scripts with examples](#batch-scripts-with-examples)
+    - [Results - Main program - Reconstruction](#results---main-program---reconstruction)
+      - [Main Parameters](#main-parameters)
+      - [Python CASToR Batch GUI](#python-castor-batch-gui)
+  - [Warning](#warning)
   - [License](#license)
 
 </details>
@@ -41,7 +50,7 @@ The main changes lie in the `toolkits` folder, which consist of the CASToR utili
 - `castor-datafileConversionEx_BPET.cc` - A program to convert the txt file to the CASToR format.
 
 Its with these programs that the data is prepared to be used in the main reconstruction program, `castor-recon.cc`.
-After one needs to compile the project, following the instructions in section [Usage](#usage). MODIFIED WITH CORRECT SECTION
+After one needs to compile the project, following the instructions in section [Results - Main program - Reconstruction](#results---main-program---reconstruction).
 
 ### *BPET_castor_results* folder
 
@@ -50,7 +59,7 @@ Here we have a **configuration** folder, which can be deprecated if the one used
 Additionally, we have a **Release** folder with the the executables of the programs, including the main reconstruction program, `castor-recon.exe`, as well as the batch files to run the programs with the correct parameters. There are several batch files to run the main program, all with the same purpose, named as `runmpi_2024Derenzo_win{}.bat`, where the {} is the number of a certain test for specific parameters.
 In addition, there is a subfolder **batch_python** with a code for a graphical user interface (GUI) using tkinter, that creates the batch files given the user input, that can be saved and run the reconstruction program with the corresponding parameters.
 
-Finally, there is a **python** folder with the scripts to process the data of the results, that adapt the data to the format of the reconstruction program, and to visualize the results in a more intuitive way. The instructions on how to use the scripts are in the [Usage](#usage) section. MODIFIED WITH CORRECT SECTION
+Finally, there is a **python** folder with the scripts to process the data of the results, that adapt the data to the format of the reconstruction program, and to visualize the results in a more intuitive way. The instructions on how to use the scripts are in the [Python CASToR Batch GUI](#python-castor-batch-gui) section.
 
 ## Getting Started
 
@@ -133,28 +142,158 @@ As for the main program, `castor-recon.cc`, it can also be adapted, although it 
 
 > **IMPORTANT:** After each change in the source code, it is necessary to recompile the project, as mentioned in the [Installation](#installation) section. For example, if a toolkit is changed/created, it is necessary to recompile the project to have the new executable of that program (In case of the creation of a new program, the CMakeList.txt file must be updated to include the new program in the build process).
 
-### Results - Python scripts
+### Results - Python scripts - Data Conversion/Processing
 
+Within the python subfolder, there are several scripts for processing the data of the results, that include part of the adaption of the data to the format of the reconstruction program, and to visualize the results in a more intuitive way.
 
+The data is not public, as it is part of the results of the HiRezBrainPET system, but the scripts can be used with any data that has the same format. In this case the data consist on a `.mat` file, which contains a structure with the lines of detection corresponding to each event, in a parametric  representation, their time of detection and other parameters not relevant for reconstruction.
 
-In order to run the program open a terminal window and run the following command:
+The main scripts are:
 
-```python
-import foobar
+- `line_intersection` folder - containing python functions, like `intersect_line_cylinder.py`, that calculates the intersection of a line with a cylinder. It takes as input the point and direction of the line (taken from the .mat file), and the radius and height of the cylinder, and returns the two  intersection points array, if they exist, or None if they don’t. The function also has optional flags input if the user want to show the line and cylinder, and to print messages, which can be useful to check if the function is working properly.
+- `Intersect_LOR.py` - a script that transforms the datafile given into fractions with the time and coordinates of the points of intersection with the cylinder, and saves the data in a txt file with the format t, x1, y1, z1, x2, y2, z2, where x1, y1, z1 are the coordinates of the first point of intersection, x2, y2, z2 are the coordinates of the second point of intersection, and t is the time of detection.
+- `LoadSave_TimeLORs` - This scripts does part of the work of the `Intersect_LOR.py`, loading the data from the .mat file and saving the times and LORs, before the intersection, into .npy files.
+- `combine_files.py` - a script that combines the fraction data into a single txt file `LOR_all_points_time.txt`.
+- `load_mat.ipynb` - a jupyter notebook that loads the data from the .mat file and shows the structure of the data, for interpretation of the data. Includes also a analysis of the data, a histogram of the data frequency over time, allowing to obtain the exponential decay of the data. Which can be related to the activity of the source (like for example, obtain the half-life of the source).
 
-# returns 'words'
-foobar.pluralize('word')
+To use the python scripts, open a terminal window and run the following command:
 
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
+```bash
+python .\[name_program].py
 ```
 
-config folder of the results should be the same as the one in the build folder.
+### Results - Exectuables - Data Conversion/Processing
 
-## Roadmap
+The conversion of the data to the format of the reconstruction program is completed with the executables in the Release folder, as detailed in the [Content](#content) section, the toolkits compiled from the source code in the BPET_castor_v3.1.1 folder. The main programs then:
+
+#### castor-PETScannerLutEx_BPET.exe
+
+First step is to create Look-Up-Table (LUT) files (.lut) that represents any scanner geometry, like the HiRezBrainPET system. This program helps with that, in case the scanner geometry wanted is not in the config/scanner folder.
+
+The program is called with the alias of the name that the user wants to give to the .lut file as an argument, and additional options to define some scanner parameters, like for example the radius, the number of rsectors, the number of crystals transaxially and axially, and others, if not provided it will use default values. In order to run the program open a terminal window and run the following command:
+
+```bash
+.\castor-PETScannerLutEx_BPET.exe -alias [name_lut_file] -radius [value] -nbrsectors [value] -nbcrystals [value1,value2] -sizecrystals [value1,value2,value3] -defaultdim [value1,value2] -defaultfov [value1,value2] -minangle [value] -startangle [value]
+```
+
+If want to know the default values, open the help menu (-h,-help,--help). This will then generate two files:
+
+- A binary file containing the cartesian coordinates (x, y, z) of the center of each crystal, as well as their orientation unit vector (u_x, u_y, u_z), corresponding to the angular orientation;
+- A header file about the system information, with some mandatory and optional information fields.
+
+#### castor-scannerLUTExplorer.exe
+
+Program that helps explore the LUT file content, exploring the central positions and orientation of the approximated system crystal, element by element. It is useful to check if the LUT file is correct, and if the system is well represented.
+
+To run the program, open a terminal window and run the following command:
+
+```bash
+.\castor-scannerLUTExplorer.exe -sf [scanner_alias].hscan -e
+```
+
+This will print the central positions and orientation in the terminal, element by element, by choice of the user. Other flags are available, print the help menu to see the options (-h,-help,--help).
+
+#### castor-txtConversionCrystalsID_BPET.exe
+
+Before the final step of the conversion into CASToR format, it is necessary to convert the LOR coordinates to the crystal indexation in the scanner geometry (thus needing the programs before to ensure that we have a correct scanner geometry representation). It returns a similar txtfile with the format t, id1, id2, where t is the time of detection, and id1 and id2 are the crystal id of both intersection points, instead of the x, y, z coordinates.
+
+The program is called with the txt file to convert, the scanner alias name for the system geometry, and the output file name. To run it, open a terminal window and run the following command:
+
+```bash
+.\castor-txtConversionCrystalsID_BPET.exe -txt [filename].txt -sf [scanner_alias] -o [output_filename].txt
+```
+
+This conversion may take some time, depending on the size of the txt file, as well as the number of elements in the scanner geometry. A progress bar is shown in the terminal, to visualize the progress of the conversion.
+
+#### castor-datafileConversionEx_BPET.exe
+
+As the final step of the conversion, this program converts the txt file into the CASToR format.
+
+It is called with the txt file to convert in list-mode format, the scanner alias name for the system geometry, the output file name, as well as other options, like the isotope name and the verbose value, if not provided it will use default values. Other options are available, print the help menu to see the options (-h,-help,--help), like normalization, randoms, scatter factors files.
+To run it, open a terminal window and run the following command:
+
+```bash
+.\castor-datafileConversionEx_BPET.exe -il [filename].txt -s [scanner_alias] -o [output_filename] -ist [isotope_name] -vb [verbose_value]
+```
+
+#### Batch scripts with examples
+
+In the Release folder, there are several batch files that runs these programs with certain parameters for the data conversion.
+
+- lut_compiler.bat - compiles the castor-PETScannerLutEx_BPET.cc program
+- lut_explorer.bat - runs the castor-scannerLUTExplorer.exe program
+- txt_id_conversion.bat - runs the castor-txtConversionCrystalsID_BPET.exe program
+- data_conversion_to_castor.bat - runs the castor-datafileConversionEx_BPET.exe program
+
+### Results - Main program - Reconstruction
+
+After the data is converted to the CASToR format, one can start using the main program of reconstruction, `castor-recon.exe`. To know the available parameters of the program, one can print the help menu (-h,-help,--help).
+
+The parameters are all combine in a batch file to run, `runmpi_2024Derenzo_win{}.bat`, where the {} is the number of a certain test for specific parameters. Thus running the batch file in the terminal, it will run the program with the parameters given in the file:
+
+```bash
+.\runmpi_2024Derenzo_win{}.bat
+```
+
+To use the program in a Unix-based system, one can adapt the batch file to a shell script, and run it in the terminal with the following command:
+
+```bash
+sh runmpi_2024Derenzo_unix{}.sh
+```
+
+#### Main Parameters
+
+The main parameters of the program used are:
+
+- `-df`: the input CASToR datafile header.
+- `-dout`: the name of the output directory.
+- `-sens`: optional use of existing sensitivity file.
+- `-dim`: the number of voxels of the reconstructed image in each dimension x,y,z.
+- `-vox`: the size of the voxels in mm in each dimension x,y,z.
+- `-fov`: the size of the field-of-view in mm in each dimension x,y,z.
+- `-off`: offset applied to the reconstructed field-of-view in mm in each dimension x,y,z.
+- `-it`: define the number of sequence of iterations and subsets separated by commas - its1:subs1,its2:subs2,etc...
+- `-opti`: optimization algorithms chosen.
+- `-proj`: the projection algorithm.
+- `-conv`: apply a convolution kernel to the projection data. To use a gaussian kernel, it is necessary to give the X1mm transaxial and X2mm axial FWHM with X3 sigmas in the convolution kernel - gaussian,1.,1.,3.::psf.
+- `-th`: parallel computation using the OpenMP library.
+- `-vb`: general verbose level.
+- `-conf`: give the path to the CASToR configuration directory, if not use default.
+- `-flip-out`: flip the image along an axis before saving.
+
+#### Python CASToR Batch GUI
+
+In the batch_python subfolder, there is a code for a graphical user interface (GUI) using tkinter, that creates the batch files given the user input, that can save and run the reconstruction program with the corresponding parameters in an interactive way.
+
+To run the GUI, open a terminal window and run the following command:
+
+```bash
+python .\python_castor_batch.py
+```
+
+Here is a screenshot of the GUI:
+
+![Python Castor Batch GUI](./BPET_castor_results/Release/batch_python/program_screenshot.png)
+
+The GUI allows the user to input:
+
+- Paths for the main program, the Cdh datafile (in CASToR format), the output directory for the results of the reconstruction, and optionally the path for sensitivity file, and the configuration directory if wanted.
+- Choose to use MPI for parallel computation, and the number of threads to use, the verbose level of the program when output in the terminal, as well as the option to print the some stats about the iteration image saved, the option to save only the last iteration image, and the option to flip the image along a certain axis before saving.
+- The number of voxels of the reconstructed image in each dimension x,y,z, the size of the voxels in mm in each dimension x,y,z, the size of the field-of-view in mm in each dimension x,y,z, and the offset applied to the reconstructed field-of-view in mm in each dimension x,y,z. Since the voxel size, voxel number and field-of-view are related, the user can choose to change one of them, and the others will be updated accordingly.
+- The number of sequence of iterations and subsets separated by commas like the example bellow, the projection algorithm, the optimization algorithms chosen, and the penalty option and strength, if the optimizer requires it.
+- Finally, the option to apply a certain number of convolution kernels to the projection data, for each the type, as well as the FWHM in mm in the transaxial, axial direction and the number of sigmas in the convolution kernel.
+
+After the user input all the parameters, the GUI can create a batch file with the parameters given, and save it in the program folder. The user can then run the batch file in a terminal, to run the reconstruction program with the parameters given.
+
+If one wants to use an existing batch file created by the GUI, one can run use the "Open from file" option in the top left, and select the batch file to use, updating the parameters in the GUI.
+
+## Warning
+
+There some warnings to take into account when using the program:
+
+- There are 2 config folders, one in the BPET_castor_results folder, and one in the BPET_castor_v3.1.1 folder. The one that is associated with the build folder is the one in the BPET_castor_v3.1.1 folder. Thus, if the user wants to use a different config folder, it is necessary to add that option when running the main program with the `-conf` flag.
+- The program is not optimized for all systems, and may take a long time to run, depending on the number/size of voxels, the convolutions used, and others. It is recommended to check for a given set of parameters, and for a given CPU power, the time it takes to run the program. In particular, the program starts by computing the sensitivity matrix, which is a time consuming demanding task, where a progress percentage is shown in the terminal. If this value takes too long to progress (like 1% per 5 minute), it is recommended to stop the program and check a way to reduce the time of computation.
+  - The use of MPI can help with it, not forgetting to choose the number of threads to use.
 
 ## License
 

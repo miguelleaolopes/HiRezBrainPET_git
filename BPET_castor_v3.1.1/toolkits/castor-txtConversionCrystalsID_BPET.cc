@@ -57,7 +57,7 @@ void ShowHelp()
   cout << "                         (in relation to the txt location, if just name, saves in same as txt path)" << endl;
   cout << endl;
   cout << "[Miscellaneous Options]:" << endl;
-  cout << "  -h                   : Print out this help page" << endl;
+  cout << "  --help,-h,-help      : Print out this help page" << endl;
   cout << "  -vb value            : Verbose mode" << endl;
   cout << endl;
 }
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
     // Get the option as a string
     string option = (string)argv[i];
     // Show help
-    if (option == "-h")
+    if (option=="-h" || option=="--help" || option=="-help")
     {
       ShowHelp();
       Exit(EXIT_SUCCESS);

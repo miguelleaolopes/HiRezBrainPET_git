@@ -49,7 +49,7 @@ void ShowHelp(int a_returnCode)
 
   cout << endl;
   cout << "[Input settings]:" << endl;
-  cout << "  -alias scanner_name   : give the alias of the scanner for which the LUT will be generated (suggested template Modality-Constructor-Model (ex: PET_GE_DLS)" << endl;
+  cout << "  -alias scanner_name   : give the alias of the scanner for which the LUT will be generated; " << endl;
   cout << "                          the resulting file will be written in the scanner repository (default : /config/scanner directory)" << endl;
   cout << endl;
   cout << "[Options]:" << endl;
@@ -61,6 +61,7 @@ void ShowHelp(int a_returnCode)
   cout << "  -defaultfov <value1,value2> : Set the default transaxial and axial field of view (default is 300,300)" << endl;
   cout << "  -minangle <value> : Set the minimum angle difference (default is 22.5)" << endl;
   cout << "  -startangle <value> : Set the angle of the first rsector (default is 90)" << endl;
+  cout << endl;
   cout << "  -h,-help,--help : Show this help message" << endl;
 
 #ifdef CASTOR_VERSION
