@@ -12,7 +12,10 @@
     - [Installation](#installation)
   - [How to use](#how-to-use)
     - [CASToR Source code](#castor-source-code)
-    - [Results - Python scripts - Data Conversion/Processing](#results---python-scripts---data-conversionprocessing)
+    - [Results - Python scripts](#results---python-scripts)
+      - [Data Conversion/Processing](#data-conversionprocessing)
+      - [Python CASToR Batch GUI](#python-castor-batch-gui)
+      - [Results Analysis](#results-analysis)
     - [Results - Exectuables - Data Conversion/Processing](#results---exectuables---data-conversionprocessing)
       - [castor-PETScannerLutEx\_BPET.exe](#castor-petscannerlutex_bpetexe)
       - [castor-scannerLUTExplorer.exe](#castor-scannerlutexplorerexe)
@@ -21,7 +24,6 @@
       - [Batch scripts with examples](#batch-scripts-with-examples)
     - [Results - Main program - Reconstruction](#results---main-program---reconstruction)
       - [Main Parameters](#main-parameters)
-      - [Python CASToR Batch GUI](#python-castor-batch-gui)
   - [Warning](#warning)
   - [License](#license)
 
@@ -57,9 +59,10 @@ After one needs to compile the project, following the instructions in section [R
 Here we have a **configuration** folder, which can be deprecated if the one used in the build folder, BPET_castor_v3.1.1, is used.
 
 Additionally, we have a **Release** folder with the the executables of the programs, including the main reconstruction program, `castor-recon.exe`, as well as the batch files to run the programs with the correct parameters. There are several batch files to run the main program, all with the same purpose, named as `runmpi_2024Derenzo_win{}.bat`, where the {} is the number of a certain test for specific parameters.
-In addition, there is a subfolder **batch_python** with a code for a graphical user interface (GUI) using tkinter, that creates the batch files given the user input, that can be saved and run the reconstruction program with the corresponding parameters.
 
-Finally, there is a **python** folder with the scripts to process the data of the results, that adapt the data to the format of the reconstruction program, and to visualize the results in a more intuitive way. The instructions on how to use the scripts are in the [Python CASToR Batch GUI](#python-castor-batch-gui) section.
+Finally, there is a **python** folder with the scripts to process the data of the results, that adapt the data to the format of the reconstruction program, and to visualize the results in a more intuitive way.
+In addition, there is a subfolder **batch_python** with a code for a graphical user interface (GUI) using tkinter, that creates the batch files given the user input, that can be saved and run the reconstruction program with the corresponding parameters.
+The instructions on how to use the scripts are in the [Python CASToR Batch GUI](#python-castor-batch-gui) section.
 
 ## Getting Started
 
@@ -142,7 +145,9 @@ As for the main program, `castor-recon.cc`, it can also be adapted, although it 
 
 > **IMPORTANT:** After each change in the source code, it is necessary to recompile the project, as mentioned in the [Installation](#installation) section. For example, if a toolkit is changed/created, it is necessary to recompile the project to have the new executable of that program (In case of the creation of a new program, the CMakeList.txt file must be updated to include the new program in the build process).
 
-### Results - Python scripts - Data Conversion/Processing
+### Results - Python scripts
+
+#### Data Conversion/Processing
 
 Within the python subfolder, there are several scripts for processing the data of the results, that include part of the adaption of the data to the format of the reconstruction program, and to visualize the results in a more intuitive way.
 
@@ -161,6 +166,41 @@ To use the python scripts, open a terminal window and run the following command:
 ```bash
 python .\[name_program].py
 ```
+
+#### Python CASToR Batch GUI
+
+In the batch_python subfolder, there is a code for a graphical user interface (GUI) using tkinter, that creates the batch files given the user input, that can save and run the reconstruction program with the corresponding parameters in an interactive way.
+
+To run the GUI, open a terminal window and run the following command:
+
+```bash
+python .\python_castor_batch.py
+```
+
+Here is a screenshot of the GUI:
+
+![Python Castor Batch GUI](./BPET_castor_results/python/batch_python/program_screenshot.png)
+
+The GUI allows the user to input:
+
+- Paths for the main program, the Cdh datafile (in CASToR format), the output directory for the results of the reconstruction, and optionally the path for sensitivity file, and the configuration directory if wanted.
+- Choose to use MPI for parallel computation, and the number of threads to use, the verbose level of the program when output in the terminal, as well as the option to print the some stats about the iteration image saved, the option to save only the last iteration image, and the option to flip the image along a certain axis before saving.
+- The number of voxels of the reconstructed image in each dimension x,y,z, the size of the voxels in mm in each dimension x,y,z, the size of the field-of-view in mm in each dimension x,y,z, and the offset applied to the reconstructed field-of-view in mm in each dimension x,y,z. Since the voxel size, voxel number and field-of-view are related, the user can choose to change one of them, and the others will be updated accordingly.
+- The number of sequence of iterations and subsets separated by commas like the example bellow, the projection algorithm, the optimization algorithms chosen, and the penalty option and strength, if the optimizer requires it.
+- Finally, the option to apply a certain number of convolution kernels to the projection data, for each the type, as well as the FWHM in mm in the transaxial, axial direction and the number of sigmas in the convolution kernel.
+
+After the user input all the parameters, the GUI can create a batch file with the parameters given, and save it in the program folder. The user can then run the batch file in a terminal, to run the reconstruction program with the parameters given.
+
+If one wants to use an existing batch file created by the GUI, one can run use the "Open from file" option in the top left, and select the batch file to use, updating the parameters in the GUI.
+
+#### Results Analysis
+
+In the resol_analysis subfolder, there are several scripts to analyze the results of the reconstruction, that include the visualization of the images in nifti format - `convertCASToRInterfileToNifti.py` to convert the images from the CASToR format to the nifti format, and `load_nii2view_analyse.py` to load the nifti images and visualize them and analyze the results.
+
+But the main programs are about the analysis of the results using the PetSpatialResolvability tool by MaxTousss in the [github repository](https://github.com/MaxTousss/PetSpatialResolvability). The scripts include:
+
+- `computeDerenzoValleyToPeak.py` - the main program that computes the Derenzo valley-to-peak ratio for the reconstructed images. See the repository for more information about the method.
+- others - are several programs to save results of all iterations and plot VPR and Resolvability as a function of the iteration number, with the subfolder `results` containing the csv of the values.
 
 ### Results - Exectuables - Data Conversion/Processing
 
@@ -260,32 +300,6 @@ The main parameters of the program used are:
 - `-vb`: general verbose level.
 - `-conf`: give the path to the CASToR configuration directory, if not use default.
 - `-flip-out`: flip the image along an axis before saving.
-
-#### Python CASToR Batch GUI
-
-In the batch_python subfolder, there is a code for a graphical user interface (GUI) using tkinter, that creates the batch files given the user input, that can save and run the reconstruction program with the corresponding parameters in an interactive way.
-
-To run the GUI, open a terminal window and run the following command:
-
-```bash
-python .\python_castor_batch.py
-```
-
-Here is a screenshot of the GUI:
-
-![Python Castor Batch GUI](./BPET_castor_results/Release/batch_python/program_screenshot.png)
-
-The GUI allows the user to input:
-
-- Paths for the main program, the Cdh datafile (in CASToR format), the output directory for the results of the reconstruction, and optionally the path for sensitivity file, and the configuration directory if wanted.
-- Choose to use MPI for parallel computation, and the number of threads to use, the verbose level of the program when output in the terminal, as well as the option to print the some stats about the iteration image saved, the option to save only the last iteration image, and the option to flip the image along a certain axis before saving.
-- The number of voxels of the reconstructed image in each dimension x,y,z, the size of the voxels in mm in each dimension x,y,z, the size of the field-of-view in mm in each dimension x,y,z, and the offset applied to the reconstructed field-of-view in mm in each dimension x,y,z. Since the voxel size, voxel number and field-of-view are related, the user can choose to change one of them, and the others will be updated accordingly.
-- The number of sequence of iterations and subsets separated by commas like the example bellow, the projection algorithm, the optimization algorithms chosen, and the penalty option and strength, if the optimizer requires it.
-- Finally, the option to apply a certain number of convolution kernels to the projection data, for each the type, as well as the FWHM in mm in the transaxial, axial direction and the number of sigmas in the convolution kernel.
-
-After the user input all the parameters, the GUI can create a batch file with the parameters given, and save it in the program folder. The user can then run the batch file in a terminal, to run the reconstruction program with the parameters given.
-
-If one wants to use an existing batch file created by the GUI, one can run use the "Open from file" option in the top left, and select the batch file to use, updating the parameters in the GUI.
 
 ## Warning
 
