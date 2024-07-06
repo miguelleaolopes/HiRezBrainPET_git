@@ -8,6 +8,7 @@
 ::::::::::::::::::::::::::::
 
 set mpi_stuff=mpiexec.exe -n 1
+set recon=.\..\castor-recon.exe 
 set recon=.\..\castor-recon_oldpc.exe 
 
 :: And without MPI (comment the one not used)
@@ -36,6 +37,10 @@ set output_5_02=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\5test
 set output_6_02=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\6test
 set output_7_02=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\7test
 set output_8_02=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\8test
+set output_9_02=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\9test
+set output_10_02=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\10test
+set output_11_02=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\11test
+set output_12_02=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\12test
 
 @REM set sens=-sens .\..\..\Results\rsmall_z2s\vs015_MLEM_sid_g12_3s\1test\1test_sensitivity.hdr
 @REM set sens=-sens .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\1test\1test_sensitivity.hdr
@@ -86,6 +91,11 @@ set psf_2=-conv gaussian,1.2,0.3,3::psf
 set psf_3=-conv gaussian,1.,0.3,3::psf
 set psf_4=-conv gaussian,0.8,0.3,3::psf
 set psf_5=-conv gaussian,1.2,0.3,1.5::psf
+set psf_6=-conv gaussian,1.2,0.7,3::psf
+set psf_9=-conv gaussian,1.0,0.02,3::psf
+set psf_10=-conv gaussian,1.0,0.02,1.5::psf
+set psf_11=-conv gaussian,1.2,0.02,1.5::psf
+set psf_12=-conv gaussian,1.0,0.3,1.5::psf
 
 set post=-conv gaussian,0.4,0.4,3::post
 set post_2=-conv gaussian,1.0,0.35,3::post
@@ -126,11 +136,16 @@ echo ===========================================================================
 
 @REM %mpi_stuff% %recon% %verbose% %datafile% %output_7_02% %iteration% %voxels_number% %voxels_size% %offset% %projector_dri% %psf_5% %thread% %last_it% %out_flip% %stats_true% %optimizer%
 
-@REM set psf_6=-conv gaussian,1.2,0.7,3::psf
 @REM set sens=-sens .\..\..\Results\rsmall_z2s\vs015_MLEM_dri_g12_3s\8test\8test_sensitivity.hdr
 @REM %mpi_stuff% %recon% %verbose% %datafile% %output_8_02% %iteration% %voxels_number% %voxels_size% %offset% %projector_dri% %psf_6% %thread% %last_it% %out_flip% %stats_true% %optimizer% %sens%
 
+@REM %mpi_stuff% %recon% %verbose% %datafile% %output_9_02% %iteration% %voxels_number% %voxels_size% %offset% %projector_dri% %psf_9% %thread% %last_it% %out_flip% %stats_true% %optimizer%
 
+@REM %mpi_stuff% %recon% %verbose% %datafile% %output_10_02% %iteration% %voxels_number% %voxels_size% %offset% %projector_dri% %psf_10% %thread% %last_it% %out_flip% %stats_true% %optimizer%
+
+@REM %mpi_stuff% %recon% %verbose% %datafile% %output_11_02% %iteration% %voxels_number% %voxels_size% %offset% %projector_dri% %psf_11% %thread% %last_it% %out_flip% %stats_true% %optimizer%
+
+%mpi_stuff% %recon% %verbose% %datafile% %output_12_02% %iteration% %voxels_number% %voxels_size% %offset% %projector_dri% %psf_12% %thread% %last_it% %out_flip% %stats_true% %optimizer%
 
 @echo on
 echo ==================================================================================

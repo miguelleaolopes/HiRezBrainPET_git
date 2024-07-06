@@ -32,6 +32,14 @@ set defaultdim= -defaultdim 300,300
 @REM set sizecrystals= -sizecrystals 10,0.25,2
 @REM set defaultdim= -defaultdim 1200,150
 
+@REM :: HiRezBrainPET_rsmall_Geom_big_z4s
+@REM set alias= -alias HiRezBrainPET_rsmall_Geom_big_z4s
+@REM set radius= -radius 150 
+@REM set nbrsectors= -nbrsectors 3768
+@REM set nbcrystals= -nbcrystals 1,75
+@REM set sizecrystals= -sizecrystals 10,0.25,4
+@REM set defaultdim= -defaultdim 1200,75
+
 @REM :: HiRezBrainPET_rmid_Geom_orig
 @REM set alias= -alias HiRezBrainPET_rmid_Geom_orig
 @REM set radius= -radius 181.07

@@ -1,0 +1,140 @@
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it5.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;31;49m1.000[0m	[1;31;49m0.950[0m	[1;31;49m0.900[0m	[1;31;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.651[0m	[1;31;49m0.780[0m	[1;31;49m0.821[0m	[1;31;49m0.898[0m	[1;31;49m0.951[0m	[1;31;49m0.965[0m	
+Stdev VPR         : 0.186	0.140	0.109	0.083	0.081	0.046
+Resolvability [%] :  76.7	 46.7	 28.9	  4.4	  3.2	  0.0
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it10.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;32;49m1.000[0m	[1;32;49m0.950[0m	[1;31;49m0.900[0m	[1;31;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.487[0m	[1;32;49m0.635[0m	[1;32;49m0.669[0m	[1;31;49m0.816[0m	[1;31;49m0.898[0m	[1;31;49m0.937[0m	
+Stdev VPR         : 0.238	0.197	0.142	0.131	0.120	0.082
+Resolvability [%] :  83.3	 73.3	 66.7	 28.9	 11.1	  4.8
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it15.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;32;49m1.000[0m	[1;32;49m0.950[0m	[1;31;49m0.900[0m	[1;31;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.418[0m	[1;32;49m0.555[0m	[1;32;49m0.580[0m	[1;31;49m0.758[0m	[1;31;49m0.854[0m	[1;31;49m0.915[0m	
+Stdev VPR         : 0.251	0.223	0.161	0.158	0.146	0.114
+Resolvability [%] :  83.3	 80.0	 84.4	 57.8	 17.5	 12.7
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it20.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;32;49m1.000[0m	[1;32;49m0.950[0m	[1;32;49m0.900[0m	[1;31;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.367[0m	[1;32;49m0.495[0m	[1;32;49m0.514[0m	[1;32;49m0.716[0m	[1;31;49m0.821[0m	[1;31;49m0.898[0m	
+Stdev VPR         : 0.242	0.227	0.163	0.177	0.168	0.138
+Resolvability [%] :  90.0	 83.3	 88.9	 60.0	 28.6	 17.5
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it25.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;32;49m1.000[0m	[1;32;49m0.950[0m	[1;32;49m0.900[0m	[1;31;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.341[0m	[1;32;49m0.453[0m	[1;32;49m0.472[0m	[1;32;49m0.677[0m	[1;31;49m0.788[0m	[1;31;49m0.891[0m	
+Stdev VPR         : 0.244	0.231	0.172	0.183	0.181	0.153
+Resolvability [%] :  90.0	 86.7	 91.1	 66.7	 39.7	 19.0
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it30.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;32;49m1.000[0m	[1;32;49m0.950[0m	[1;32;49m0.900[0m	[1;31;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.318[0m	[1;32;49m0.429[0m	[1;32;49m0.439[0m	[1;32;49m0.639[0m	[1;31;49m0.761[0m	[1;31;49m0.880[0m	
+Stdev VPR         : 0.231	0.232	0.175	0.190	0.191	0.170
+Resolvability [%] :  90.0	 86.7	 95.6	 66.7	 44.4	 22.2
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it35.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;32;49m1.000[0m	[1;32;49m0.950[0m	[1;32;49m0.900[0m	[1;31;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.306[0m	[1;32;49m0.407[0m	[1;32;49m0.415[0m	[1;32;49m0.613[0m	[1;31;49m0.738[0m	[1;31;49m0.867[0m	
+Stdev VPR         : 0.230	0.231	0.178	0.194	0.204	0.185
+Resolvability [%] :  90.0	 90.0	 95.6	 66.7	 49.2	 27.0
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it40.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;32;49m1.000[0m	[1;32;49m0.950[0m	[1;32;49m0.900[0m	[1;32;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.295[0m	[1;32;49m0.393[0m	[1;32;49m0.398[0m	[1;32;49m0.595[0m	[1;32;49m0.723[0m	[1;31;49m0.859[0m	
+Stdev VPR         : 0.229	0.232	0.187	0.197	0.212	0.197
+Resolvability [%] :  90.0	 90.0	 93.3	 71.1	 52.4	 27.0
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it45.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;32;49m1.000[0m	[1;32;49m0.950[0m	[1;32;49m0.900[0m	[1;32;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.287[0m	[1;32;49m0.383[0m	[1;32;49m0.381[0m	[1;32;49m0.574[0m	[1;32;49m0.710[0m	[1;31;49m0.852[0m	
+Stdev VPR         : 0.228	0.233	0.188	0.199	0.220	0.207
+Resolvability [%] :  90.0	 90.0	 93.3	 80.0	 55.6	 27.0
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+
+
+=== Results ===
+Image             : ..\..\Results\rsmall_z2s\vs015_geoms\1test\1test_it50.hdr
+Z-slice(s)        : [20, 30]
+VPR metric        : parabola
+ROI on peaks      : 100%
+ROI on valleys    : 100%
+Rod size (mm)     : [1;32;49m1.100[0m	[1;32;49m1.000[0m	[1;32;49m0.950[0m	[1;32;49m0.900[0m	[1;32;49m0.850[0m	[1;31;49m0.800[0m	
+Average VPR       : [1;32;49m0.281[0m	[1;32;49m0.373[0m	[1;32;49m0.368[0m	[1;32;49m0.561[0m	[1;32;49m0.688[0m	[1;31;49m0.848[0m	
+Stdev VPR         : 0.227	0.234	0.189	0.203	0.234	0.214
+Resolvability [%] :  90.0	 90.0	 95.6	 80.0	 57.1	 25.4
+
+---> In [1;32;49mgreen[0m if phantom section has an average VPR < 0.735, in [1;31;49mred[0m otherwise.
+

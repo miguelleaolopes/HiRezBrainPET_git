@@ -1,0 +1,57 @@
+!INTERFILE := 
+!imaging modality := PET
+!version of keys := CASToRv3.1.1
+CASToR version := 3.1.1
+
+!GENERAL DATA := 
+!originating system := HiRezBrainPET_rsmall_Geom_z2s
+!data offset in bytes := 0
+!name of data file := 1test_it6.img
+patient name := 1test_it6
+
+!GENERAL IMAGE DATA 
+!type of data := Dynamic
+!total number of images := 50
+imagedata byte order := LITTLEENDIAN
+!number of frame groups :=1 
+process status := 
+
+!STATIC STUDY (General) :=
+number of dimensions := 3
+!matrix size [1] := 400
+!matrix size [2] := 400
+!matrix size [3] := 50
+!number format := short float
+!number of bytes per pixel := 4
+scaling factor (mm/pixel) [1] := 0.1
+scaling factor (mm/pixel) [2] := 0.1
+scaling factor (mm/pixel) [3] := 0.4
+first pixel offset (mm) [1] := 0
+first pixel offset (mm) [2] := -45
+first pixel offset (mm) [3] := -8
+data rescale offset := 0
+data rescale slope := 1
+quantification units := 1
+!number of images in this frame group := 50
+!image duration (sec) := 14425
+!image start time (sec) := 0
+pause between frame groups (sec) := 0
+!END OF INTERFILE := 
+
+!COPY OF INPUT HEADER 1
+Data filename: CASToR_Derenzo_all_Geom_rsmall_z2s_df.Cdf
+Number of events: 4995317
+Data mode: list-mode
+Data type: PET
+Start time (s): 0
+Duration (s): 14425
+Scanner name: HiRezBrainPET_rsmall_Geom_z2s
+Maximum number of lines per event: 1
+Calibration factor: 1
+Isotope: F-18
+TOF information flag: 0
+Attenuation correction flag: 0
+Normalization correction flag: 0
+Scatter correction flag: 0
+Random correction flag: 0
+!END OF COPY OF INPUT HEADER 1

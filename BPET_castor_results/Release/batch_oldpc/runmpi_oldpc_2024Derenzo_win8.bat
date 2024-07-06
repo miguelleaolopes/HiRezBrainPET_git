@@ -29,19 +29,14 @@ set datafile6=-df .\..\..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rmid_big_z4s
 set datafile7=-df .\..\..\Files\CASToR_data\CASToR_Derenzo_all_Geom_rmid_big_df.Cdh
 
 
-set output_1=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\1test
-set output_2=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\2test
-set output_3=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\3test
-set output_4=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\4test
-set output_5=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\5test
-set output_6=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\6test
-set output_7=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\7test
-set output_8=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\8test
-set output_9=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\9test
-set output_10=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_ittest\10test
+set output_1=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_projs\jos
+set output_2=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_projs\sid
+set output_3=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_projs\dri
+set output_4=-dout .\..\..\Results\rsmall_z2s\vs015_MLEM_projs\inc
 
 
-set sens=-sens .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_g12_3s\1test\1test_sensitivity.hdr
+
+@REM set sens=-sens .\..\..\Results\rsmall_z2s\vs015_MLEM_jos_g12_3s\1test\1test_sensitivity.hdr
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -62,9 +57,9 @@ set offset_big=-off 0.,-65.,-8.
 
 :: Number of iterations:subsets
 @REM set iteration=-it 5:10,5:5
-set iteration_1=-it 10:50
+@REM set iteration_1=-it 10:50
 @REM set iteration_2=-it 20:25
-set iteration_3=-it 25:20
+@REM set iteration_3=-it 25:20
 @REM set iteration_4=-it 50:10
 @REM set iteration_5=-it 100:5
 @REM set iteration_6=-it 250:2
@@ -73,9 +68,11 @@ set iteration_8=-it 2:50,40:10
 
 set optimizer_MLEM=-opti MLEM
 set optimizer_D95=-opti DEPIERRO95
-set optimizer_OSL_MLEM=-
+set optimizer_OSL=-opti OSL
 set projector=-proj joseph
-@REM classicSiddon  distanceDriven  incrementalSiddon  joseph
+set projector_sid=-proj classicSiddon
+set projector_dri=-proj distanceDriven
+set projector_inc=-proj incrementalSiddon
 
 set penalty_MRF=-pnlt MRF
 set penalty_MRP=-pnlt MRP
@@ -105,45 +102,24 @@ echo Reconstruction is going on. Should take several minutes depending on the ha
 echo ==================================================================================
 
 @REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_jos_ittest\7test
+@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_projs\jos
 @REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile2% %output_7% %iteration_7% %voxels_number_015% %voxels_size_015% %offset% %projector% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM% %sens%
+@REM %mpi_stuff% %recon% %verbose% %datafile2% %output_1% %iteration_8% %voxels_number_015% %voxels_size_015% %offset% %projector% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM% %sens%
 
-@REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_jos_ittest\1test
-@REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile2% %output_1% %iteration_1% %voxels_number_015% %voxels_size_015% %offset% %projector% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM% %sens%
+echo ==================================================================================
+echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_projs\sid
+echo ==================================================================================
+%mpi_stuff% %recon% %verbose% %datafile2% %output_2% %iteration_8% %voxels_number_015% %voxels_size_015% %offset% %projector_sid% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM%
 
-@REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_jos_ittest\2test
-@REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile2% %output_2% %iteration_2% %voxels_number_015% %voxels_size_015% %offset% %projector% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM% %sens%
+echo ==================================================================================
+echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_projs\dri
+echo ==================================================================================
+%mpi_stuff% %recon% %verbose% %datafile2% %output_3% %iteration_8% %voxels_number_015% %voxels_size_015% %offset% %projector_dri% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM%
 
-@REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_jos_ittest\3test
-@REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile2% %output_3% %iteration_3% %voxels_number_015% %voxels_size_015% %offset% %projector% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM% %sens%
-
-@REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_jos_ittest\4test
-@REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile2% %output_4% %iteration_4% %voxels_number_015% %voxels_size_015% %offset% %projector% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM% %sens%
-
-@REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_jos_ittest\5test
-@REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile2% %output_5% %iteration_5% %voxels_number_015% %voxels_size_015% %offset% %projector% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM% %sens%
-
-@REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_jos_ittest\6test
-@REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile2% %output_6% %iteration_6% %voxels_number_015% 
-@REM %voxels_size_015% %offset% %projector% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM% %sens%
-
-@REM echo ==================================================================================
-@REM echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_jos_ittest\8test
-@REM echo ==================================================================================
-@REM %mpi_stuff% %recon% %verbose% %datafile2% %output_8% %iteration_8% %voxels_number_015% %voxels_size_015% %offset% %projector% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM% %sens%
+echo ==================================================================================
+echo Reconstruction with CASToR_Derenzo_all_Geom_rsmall_z2s_df in output rsmall_z2s\vs015_MLEM_projs\inc
+echo ==================================================================================
+%mpi_stuff% %recon% %verbose% %datafile2% %output_4% %iteration_8% %voxels_number_015% %voxels_size_015% %offset% %projector_inc% %psf_3% %thread% %last_it% %stats_true% %out_flip% %optimizer_MLEM%
 
 
 
